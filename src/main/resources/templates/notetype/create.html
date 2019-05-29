@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tao NoteType</title>
+</head>
+<body>
+    <a th:href="@{/note/list}">Trở lại trang danh sách</a>
+    <h1>Tao Note Type</h1>
+
+    <form th:action="@{/notetype/create}" th:object="${notetype}" method="post">
+        <table th:block>
+            <tr>
+                <td>STT</td>
+                <td>Name</td>
+                <td>Description</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="text" th:field="*{name}" />
+                </td>
+                <td>
+                    <input type="text" th:field="*{description}" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="Tao Note Type">
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

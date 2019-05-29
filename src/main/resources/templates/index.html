@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Note</title>
+    <style>
+        table {
+            width: 100%;
+        }
+
+        table td, table th {
+            border: 1px solid grey;
+        }
+
+        table th {
+            background: #eee;
+        }
+
+        .pagination {
+            user-select: none;
+            display: inline;
+        }
+
+        .pagination a {
+            border-radius: 3px;
+            border: 1px solid #999;
+            padding: 5px;
+            margin: 10px 0px 0px 10px;
+            display: inline-block;
+        }
+
+        a.active {
+            background: #ccf;
+        }
+    </style>
+</head>
+<body>
+<h1>Các ghi chú</h1>
+<a th:href="@{/note/create}">Tạo ghi chú mới</a>
+<p th:text="${success}"></p>
+
+<a th:href="@{/notetype/create}">Tạo cac the loai moi</a>
+<p th:text="${success}"></p>
+<form>
+    <select name="noteType">
+        <option value="-1">Tất cả</option>
+        <option th:each="nt:${noteTypes}" th:value="${nt.id}" th:text="${nt.name}"></option>
+    </select>
+    <input type="text" name="title">
+    <input type="submit" value="Tìm kiếm">
+</form>
+
+<table border="1" cellpadding="8" cellspacing="0">
+    <tr>
+        <td>STT</td>
+        <td>Tiêu đề</td>
+        <td>Phân loại</td>
+        <td></td>
+    </tr>
+    <tr th:each="note:${notes}">
+        <td></td>
+        <td th:text="${note.title}"></td>
+        <td th:text="${note.noteType.name}"></td>
+        <td>
+            <a th:href="@{/note/edit/__${note.id}__}">Edit</a> | <a th:href="@{/note/delete/__${note.id}__}">Delete</a>
+        </td>
+    </tr>
+</table>
+<div>
+    <div class="pagination">
+        <a th:href="@{'/note/list'(page=${notes.number - 1})}" th:if="!${notes.first}">Prev</a>
+    </div>
+    <div th:if="${notes.totalPages > 0}" class="pagination"
+         th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{/note/list(page=${pageNumber - 1})}"
+           th:text="${pageNumber}"
+           th:class="${pageNumber==notes.number + 1} ? active"></a>
+    </div>
+    <div class="pagination">
+        <a th:href="@{'/note/list'(page=${notes.number + 1})}" th:if="!${notes.last}">Next</a>
+    </div>
+</div>
+</body>
+</html>
